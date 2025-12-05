@@ -1,0 +1,39 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+}
+
+model User {
+    id        Int        @id @default(autoincrement())
+    email     String     @unique
+    name      String     @unique
+    password  String
+    locations Location[]
+    tasks     Task[]
+}
+
+model Location {
+    id          Int    @id @default(autoincrement())
+    user        User   @relation(fields: [userId], references: [id])
+    userId      Int
+    latitude    Float
+    longitude   Float
+    name        String
+    description String
+    elevation   Float
+    timezone    String
+}
+
+model Task {
+    id          Int      @id @default(autoincrement())
+    user        User     @relation(fields: [userId], references: [id])
+    userId      Int
+    title       String
+    description String
+    isCompleted Boolean  @default(false)
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+}
