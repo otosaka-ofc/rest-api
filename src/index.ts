@@ -393,6 +393,7 @@ app.get("/tasks", async (req, res) => {
     try {
         const tasks = await prisma.task.findMany({
             orderBy: { createdAt: "desc" },
+            include: { user: true },
         });
 
         res.json(tasks);
